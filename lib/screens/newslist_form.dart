@@ -95,7 +95,7 @@ class _NewsFormPageState extends State<NewsFormPage> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: InputDecoration(
-                            hintText: "URL Thumbnail",
+                            hintText: "URL Thumbnail (opsional)",
                             labelText: "URL Thumbnail",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
@@ -106,49 +106,40 @@ class _NewsFormPageState extends State<NewsFormPage> {
                               _thumbnail = value!;
                             });
                           },
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return "URL Thumbnail tidak boleh kosong!";
-                            }
-                            if (!Uri.parse(value).isAbsolute) {
-                                return "URL tidak valid!";
-                            }
-                            return null;
-                          },
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: DropdownButtonFormField<String>(
+                          decoration: InputDecoration( // Ditambahkan agar sesuai tutorial
+                            labelText: "Kategori",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                          ),
                           value: _category,
-                          hint: const Text("Pilih Kategori"),
-                          items: _categories.map((String category) {
-                            return DropdownMenuItem<String>(
-                              value: category,
-                              child: Text(category),
-                            );
-                          }).toList(),
+                          items: _categories
+                              .map((cat) => DropdownMenuItem(
+                                    value: cat,
+                                    child: Text(
+                                        cat[0].toUpperCase() + cat.substring(1)),
+                                  ))
+                              .toList(),
                           onChanged: (String? newValue) {
                             setState(() {
                               _category = newValue!;
                             });
                           },
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return "Kategori tidak boleh kosong!";
-                            }
-                            return null;
-                          },
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: CheckboxListTile(
-                          title: const Text("Berita Unggulan (Featured)"),
+                        child: SwitchListTile(
+                          title: const Text("Tandai sebagai Berita Unggulan"),
                           value: _isFeatured,
-                          onChanged: (bool? newValue) {
+                          onChanged: (bool value) {
                             setState(() {
-                              _isFeatured = newValue!;
+                              _isFeatured = value;
                             });
                           },
                         ),
@@ -164,21 +155,48 @@ class _NewsFormPageState extends State<NewsFormPage> {
                             ),
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                ScaffoldMessenger.of(context)
-                                  .showSnackBar(
-                                    SnackBar(content: Text(
-                                      "Berita '$_title' berhasil disimpan!"
-                                    )),
-                                  );
-                                _formKey.currentState!.reset();
-                                setState(() {
-                                  _isFeatured = false;
-                                  _category = "update";
-                                });
+                                // Tampilkan AlertDialog
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Berita berhasil disimpan!'),
+                                      content: SingleChildScrollView(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Judul: $_title'),
+                                            Text('Isi: $_content'),
+                                            Text('Kategori: $_category'),
+                                            Text('Thumbnail: $_thumbnail'),
+                                            Text(
+                                                'Unggulan: ${_isFeatured ? "Ya" : "Tidak"}'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text('OK'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            
+                                            _formKey.currentState!.reset();
+                                            
+                                            setState(() {
+                                              _isFeatured = false;
+                                              _category = "update";
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               }
                             },
                             child: const Text(
-                              "Save",
+                              "Simpan", 
                               style: TextStyle(color: Colors.white),
                             ),
                           ),

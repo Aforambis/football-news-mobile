@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:football_news_mobile/newslist_form.dart'; 
 import 'package:football_news_mobile/widgets/left_drawer.dart';
+import 'package:football_news_mobile/widgets/news_card.dart';
 
 class MyHomePage extends StatelessWidget {
     MyHomePage({super.key}); 
@@ -69,6 +69,7 @@ class MyHomePage extends StatelessWidget {
                     shrinkWrap: true,
 
                     children: items.map((ItemHomepage item) {
+                      // Gunakan ItemCard dari file yang diimpor
                       return ItemCard(item);
                     }).toList(),
                   ),
@@ -104,72 +105,6 @@ class InfoCard extends StatelessWidget {
             const SizedBox(height: 8.0),
             Text(content),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class ItemHomepage {
-  final String name;
-  final IconData icon;
-
-  ItemHomepage(this.name, this.icon);
-}
-
-class ItemCard extends StatelessWidget {
-  final ItemHomepage item; 
-  const ItemCard(this.item, {super.key}); 
-
-  @override
-  Widget build(BuildContext context) {
-    Color cardColor = Colors.blueAccent[400]!; 
-    if (item.name == "Add News") {
-      cardColor = Colors.indigo; 
-    } else if (item.name == "Logout") {
-      cardColor = Colors.red;
-    }
-
-    return Material(
-      color: cardColor, 
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: () {
-          if (item.name == "Add News") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const NewsFormPage(),
-              ),
-            );
-          } else {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!"))
-              );
-          }
-        },
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  item.icon,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                const Padding(padding: EdgeInsets.all(3)),
-                Text(
-                  item.name,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );
