@@ -3,28 +3,25 @@ import 'package:football_news_mobile/widgets/left_drawer.dart';
 import 'package:football_news_mobile/widgets/news_card.dart';
 
 class MyHomePage extends StatelessWidget {
-    MyHomePage({super.key}); 
+  MyHomePage({super.key});
 
-    final String nama = "Rusydan Mujtaba Ibnu Ramadhan"; 
-    final String npm = "2406421081"; 
-    final String kelas = "F";
+  final String nama = "Rusydan Mujtaba Ibnu Ramadhan";
+  final String npm = "2406421081";
+  final String kelas = "F";
 
-    final List<ItemHomepage> items = [
+  final List<ItemHomepage> items = [
     ItemHomepage("See Football News", Icons.newspaper),
     ItemHomepage("Add News", Icons.add),
     ItemHomepage("Logout", Icons.logout),
-    ];
+  ];
 
-    @override
-    Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Football News',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
@@ -84,8 +81,8 @@ class MyHomePage extends StatelessWidget {
 }
 
 class InfoCard extends StatelessWidget {
-  final String title;  
-  final String content; 
+  final String title;
+  final String content;
 
   const InfoCard({super.key, required this.title, required this.content});
 
@@ -94,14 +91,11 @@ class InfoCard extends StatelessWidget {
     return Card(
       elevation: 2.0,
       child: Container(
-        width: MediaQuery.of(context).size.width / 3.5, 
+        width: MediaQuery.of(context).size.width / 3.5,
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8.0),
             Text(content),
           ],

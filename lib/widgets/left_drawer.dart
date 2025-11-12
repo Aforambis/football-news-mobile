@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_news_mobile/screens/menu.dart';
-import 'package:football_news_mobile/screens/newslist_form.dart'; 
+import 'package:football_news_mobile/screens/newslist_form.dart';
+import 'package:football_news_mobile/screens/news_list.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -11,9 +12,7 @@ class LeftDrawer extends StatelessWidget {
       child: ListView(
         children: [
           const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.indigo, 
-            ),
+            decoration: BoxDecoration(color: Colors.indigo),
             child: Column(
               children: [
                 Text(
@@ -44,21 +43,17 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => MyHomePage(),
-                ),
+                MaterialPageRoute(builder: (context) => MyHomePage()),
               );
             },
           ),
           ListTile(
-            leading: const Icon(Icons.add_circle_outline), 
+            leading: const Icon(Icons.add_circle_outline),
             title: const Text('Add News'),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const NewsFormPage(),
-                ),
+                MaterialPageRoute(builder: (context) => const NewsFormPage()),
               );
             },
           ),
@@ -66,10 +61,12 @@ class LeftDrawer extends StatelessWidget {
             leading: const Icon(Icons.newspaper),
             title: const Text('See Football News'),
             onTap: () {
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(const SnackBar(
-                      content: Text("Coming Soon!")));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NewsListPage(),
+                  ),
+                );
             },
           ),
         ],
